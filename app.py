@@ -1,6 +1,6 @@
 import random
 
-from textual import events
+from textual import events, on
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical, Grid, Container, Center
 from textual.content import Content
@@ -103,8 +103,8 @@ class PhotosScreen(UnfocusedScreen):
 			# yield Static("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщьыъэюя")
 			with Grid(id="photo_panel"):
 				for i in range(len(self.photos)):
-					yield PhotoButton(self.photos[i].label, id=f"photo{i+1}")
-			yield Center(Button("››", id="continue", classes="hidden"))
+					yield PhotoButton(self.photos[i].label, id=f"photo{i+1}", classes="photobutton")
+			yield Center(Button("››", id="continue", classes="hidden1"))
 
 	def on_mouse_move(self) -> None:
 		# print(event.offset)
@@ -115,9 +115,10 @@ class PhotosScreen(UnfocusedScreen):
 			super().__init__()
 			self.button_id = button_id
 
-	def on_button_pressed(self, event: PhotoButton.Pressed):
+	@on(PhotoButton.Pressed, ".photobutton")
+	def lets_see_the_photo(self, event: PhotoButton.Pressed):
 		button_id = event.button.id
-		event.stop()
+		# event.stop()
 		self.post_message(self.PhotoPressed(button_id))
 		if len(self.query("PhotoButton.seen")) == len(self.photos):
 			self.query_one("#continue").remove_class("hidden")
