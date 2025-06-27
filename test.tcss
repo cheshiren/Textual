@@ -1,3 +1,5 @@
+$text-width: 66;
+
 Screen {
 	align: center middle;
 	# color: $text-primary;
@@ -10,7 +12,7 @@ Screen {
 
 #column-start-screen {
 	align: center middle;
-	max-width: 80;
+	max-width: $text-width;
 
 	Label {
 		width: 100%;
@@ -46,13 +48,12 @@ Screen {
 CutScreen {
 	Vertical {
 		align: center middle;
-		max-width: 80;
+		max-width: $text-width;
 		Static {
 			text-style: italic;
 			margin: 1 2;
 		}
 		Button {
-			# width: 100%;
 			margin: 1 1;
 			padding: 1 0;
 			text-style: none;
@@ -66,8 +67,28 @@ CutScreen {
 	}
 }
 
+PhotoScreen {
+	Vertical {
+		align: center middle;
+		max-width: $text-width;
+		Static {
+			margin: 1 2;
+		}
+		Button {
+			margin: 1 1;
+			padding: 1 0;
+			text-style: none;
+			background: transparent;
+			border: none;
+		}
+		Button:focus, Button:hover {
+			color: $background;
+			background: $primary;
+		}
+	}
+}
 #photo_column {
-	max-width: 80;
+	max-width: $text-width;
 	align: center middle;
 	margin: 0 2;
 
