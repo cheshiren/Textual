@@ -104,11 +104,23 @@ class PhotosScreen(UnfocusedScreen):
 			with Grid(id="photo_panel"):
 				for i in range(len(self.photos)):
 					yield PhotoButton(self.photos[i].label, id=f"photo{i+1}")
-		# yield Footer()
+			yield Center(Button("››", id="continue", classes="hidden"))
 
 	def on_mouse_move(self) -> None:
 		# print(event.offset)
 		self.query("PhotoButton").blur()
+	
+	class PhotoPressed(Message):
+		def __init__(self, button_id: str|None):
+			super().__init__()
+			self.button_id = button_id
+
+	def on_button_pressed(self, event: PhotoButton.Pressed):
+		button_id = event.button.id
+		event.stop()
+		self.post_message(self.PhotoPressed(button_id))
+		if len(self.query("PhotoButton.seen")) == len(self.photos):
+			self.query_one("#continue").remove_class("hidden")
 
 
 class PhotoScreen(UnfocusedScreen):
@@ -120,6 +132,11 @@ class PhotoScreen(UnfocusedScreen):
 		with Vertical():
 			yield Static(Content(self.photo.description))
 			yield Center(Button("‹‹"))
+	class ReturnPressed(Message):
+		pass
+	def on_button_pressed(self, event: Button.Pressed):
+		event.stop()
+		self.post_message(self.ReturnPressed())
 
 
 class TestApp(App):
@@ -149,13 +166,19 @@ class TestApp(App):
 
 		self.push_screen("start_screen")
 		self.push_screen("photos_screen") # DELETEME
-		self.push_screen("photo1_screen") # DELETEME
+		# self.push_screen("photo1_screen") # DELETEME
 
 	def on_start_screen_start_pressed(self, event: StartScreen.StartPressed):
 		self.push_screen("intro_screen")
 
 	def on_cut_screen_next_pressed(self, event: CutScreen.NextPressed):
 		self.push_screen(event.next_screen)
+	
+	def on_photos_screen_photo_pressed(self, event: PhotosScreen.PhotoPressed):
+		self.push_screen(f"{event.button_id}_screen")
+
+	def on_photo_screen_return_pressed(self, event: PhotoScreen.ReturnPressed):
+		self.pop_screen()
 
 
 EXAMPLE_MARKDOWN = """\

@@ -8,6 +8,7 @@ Screen {
 * {
 	# border: $secondary;
 	# outline: $secondary;
+	# background: ivory 30%;
 }
 
 #column-start-screen {
@@ -93,7 +94,8 @@ PhotoScreen {
 	margin: 0 2;
 
 	#photo_panel {
-		height: 29;
+		height: 23;
+		margin: 1 1;
 		# align: center middle;
 		# layout: grid;
 		grid-size: 3 3;
@@ -118,5 +120,19 @@ PhotoScreen {
 			background: $primary;
 			border: heavy $primary;
 		}
+	}
+	.hidden {
+		opacity: 0%;
+	}
+	#continue  {
+		margin: 1 1;
+		padding: 1 0;
+		text-style: none;
+		background: transparent;
+		border: none;
+	}
+	#continue:focus, #continue:hover {
+		color: $background;
+		background: $primary;
 	}
 }
