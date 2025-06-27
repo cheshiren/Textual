@@ -69,7 +69,7 @@ CutScreen {
 #photo_column {
 	max-width: 80;
 	align: center middle;
-	# outline: $secondary;
+	margin: 0 2;
 
 	#photo_panel {
 		height: 29;
