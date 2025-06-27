@@ -1,0 +1,101 @@
+Screen {
+	align: center middle;
+	# color: $text-primary;
+}
+
+* {
+	# border: $secondary;
+	# outline: $secondary;
+}
+
+#column-start-screen {
+	align: center middle;
+	max-width: 80;
+
+	Label {
+		width: 100%;
+		text-align: center;
+		margin: 1 2;
+	}
+
+	#title-start-screen {
+		text-style: bold;
+	}
+
+	#author-start-screen {
+		color: $secondary;
+	}
+
+	Button {
+		dock: bottom;
+		width: 100%;
+		margin: 1 2;
+		padding: 1 0;
+		text-style: none;
+		background: transparent;
+		border: solid $text-primary;
+	}
+
+	Button:focus, Button:hover {
+		color: $background;
+		background: $primary;
+		border: solid $primary;
+	}
+}
+
+CutScreen {
+	Vertical {
+		align: center middle;
+		max-width: 80;
+		Static {
+			text-style: italic;
+			margin: 1 2;
+		}
+		Button {
+			# width: 100%;
+			margin: 1 1;
+			padding: 1 0;
+			text-style: none;
+			background: transparent;
+			border: none;
+		}
+		Button:focus, Button:hover {
+			color: $background;
+			background: $primary;
+		}
+	}
+}
+
+#photo_column {
+	max-width: 80;
+	align: center middle;
+	# outline: $secondary;
+
+	#photo_panel {
+		height: 29;
+		# align: center middle;
+		# layout: grid;
+		grid-size: 3 3;
+		grid-gutter: 1 2;
+		# outline: $secondary;
+
+		PhotoButton {
+			height: 1fr;
+			width: 1fr;
+			padding: 1;
+			text-style: none;
+			background: transparent;
+			border: heavy $text-primary;
+		}
+
+		PhotoButton.seen {
+			border: solid $text-primary;
+		}
+
+		PhotoButton:focus, PhotoButton:hover {
+			color: $background;
+			background: $primary;
+			border: heavy $primary;
+		}
+	}
+}
