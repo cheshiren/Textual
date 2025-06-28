@@ -104,7 +104,7 @@ class PhotosScreen(UnfocusedScreen):
 			with Grid(id="photo_panel"):
 				for i in range(len(self.photos)):
 					yield PhotoButton(self.photos[i].label, id=f"photo{i+1}", classes="photobutton")
-			yield Center(Button("››", id="continue", classes="hidden1"))
+			yield Center(Button("››", id="continue", classes="hidden"))
 
 	def on_mouse_move(self) -> None:
 		# print(event.offset)
@@ -120,6 +120,8 @@ class PhotosScreen(UnfocusedScreen):
 		button_id = event.button.id
 		# event.stop()
 		self.post_message(self.PhotoPressed(button_id))
+
+		# Если все фотокнопки были нажаты - убираем скрытый класс с кнопки Дальше
 		if len(self.query("PhotoButton.seen")) == len(self.photos):
 			self.query_one("#continue").remove_class("hidden")
 
@@ -133,6 +135,9 @@ class PhotoScreen(UnfocusedScreen):
 		with Vertical():
 			yield Static(Content(self.photo.description))
 			yield Center(Button("‹‹"))
+	def on_mount(self):
+		if not self.photo.seen:
+			self.photo.first_seen()
 	class ReturnPressed(Message):
 		pass
 	def on_button_pressed(self, event: Button.Pressed):
