@@ -153,24 +153,30 @@ class PhotoScreen(UnfocusedScreen):
 		super().__init__(name, id, classes)
 		self.photo = photo
 	def compose(self):
-		app.TITLE = self.photo.label
 		yield Header()
 		with Vertical():
 			yield Static(Content(self.photo.description))
-			yield Center(Button("‹‹"))
+			if self.photo != photo10:
+				yield Center(Button("‹‹"))
+			else:
+				yield Center(Button("››"))
 	def on_mount(self):
 		if not self.photo.seen:
 			self.photo.first_seen()
 		self.query_one("Static").update(Content.from_markup(self.photo.description))
-		for l in self.query("Link"):
-			l.can_focus = True
 	class ReturnPressed(Message):
 		pass
+	class ContinuePressed(Message):
+		pass
 	def on_button_pressed(self, event: Button.Pressed):
-		event.stop()
-		self.post_message(self.ReturnPressed())
+		# event.stop()
+		if self.photo != photo10:
+			self.post_message(self.ReturnPressed())
+		else:
+			self.post_message(self.ContinuePressed())
 	def key_backspace(self):
-		self.post_message(self.ReturnPressed())
+		if self.photo != photo10:
+			self.post_message(self.ReturnPressed())
 	
 class NoteScreen(ModalScreen):
 	def __init__(self, name = None, id = None, classes = None, note: Note = Note()):
@@ -225,6 +231,14 @@ class LastPhotoScreen(UnfocusedScreen):
 			self.action_lets_see_the_photo(Button.Pressed(button))
 		except: pass
 
+class TheEndScreen(Screen):
+	def compose(self):
+		yield Center(Label("КОНЕЦ"))
+		yield Center(Label(f"{AUTHOR}. 2025"), id="end")
+	def on_mount(self):
+		self.query_one("#end").styles.dock = "bottom"
+		self.query_one("#end").styles.margin = [3, 0]
+
 
 class TestApp(App):
 
@@ -245,7 +259,7 @@ class TestApp(App):
 		self.install_screen(CutScreen(text=Cut.intro_text,
 							next_screen="photos_screen"), name="intro_screen")
 		self.install_screen(CutScreen(text=Cut.interlude_text, next_screen="last_photo_screen"), name="interlude_screen")
-		self.install_screen(CutScreen(), name="outro_screen")
+		self.install_screen(CutScreen(text=Cut.outro_text, next_screen="end_screen"), name="outro_screen")
 		self.install_screen(PhotosScreen(
 			photos=self.PHOTOS), name="photos_screen")
 		for i in range(len(self.PHOTOS)):
@@ -256,10 +270,11 @@ class TestApp(App):
 		for n in self.NOTES:
 			self.install_screen(NoteScreen(
 				note=n), name=f"{n.name}_screen")
+		self.install_screen(TheEndScreen, name="end_screen")
 
 		self.push_screen("start_screen")
-		self.push_screen("photos_screen") # DELETEME
-		self.push_screen("interlude_screen") # DELETEME
+		# self.push_screen("photos_screen") # DELETEME
+		# self.push_screen("interlude_screen") # DELETEME
 
 	def on_start_screen_start_pressed(self, event: StartScreen.StartPressed):
 		self.push_screen("intro_screen")
@@ -275,6 +290,9 @@ class TestApp(App):
 
 	def on_photo_screen_return_pressed(self, event: PhotoScreen.ReturnPressed):
 		self.pop_screen()
+
+	def on_photo_screen_continue_pressed(self, event: PhotoScreen.ReturnPressed):
+		self.push_screen("outro_screen")
 	
 	def action_note(self, note: str):
 		self.push_screen(f"{note}_screen")
