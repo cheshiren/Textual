@@ -5,6 +5,13 @@ Screen {
 	# color: $text-primary;
 }
 
+# Header {
+# 	align: center middle;
+# 	content-align: center middle;
+# 	max-width: $text-width;
+# 	dock: none;
+# }
+
 * {
 	# border: $secondary;
 	# outline: $secondary;

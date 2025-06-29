@@ -51,9 +51,10 @@ class UnfocusedScreen(Screen):
 
 
 class StartScreen(UnfocusedScreen):
-
+	def on_mount(self):
+		self.title = ""
 	def compose(self):
-		yield Header()
+		yield Header(classes="-tall", icon="•••")
 		with Vertical(id="column-start-screen"):
 			yield Label(TITLE.upper(), id="title-start-screen")
 			yield Label(AUTHOR, id="author-start-screen")
@@ -76,7 +77,7 @@ class CutScreen(UnfocusedScreen):
 		self.next_screen = next_screen
 
 	def compose(self):
-		yield Header()
+		yield Header(classes="-tall", icon="•••")
 		with Vertical():
 			yield Static(self.text)
 			yield Center(Button("››"))
@@ -98,7 +99,7 @@ class PhotosScreen(UnfocusedScreen):
 		self.photos = photos
 
 	def compose(self) -> ComposeResult:
-		yield Header()
+		yield Header(classes="-tall", icon="•••")
 		with Vertical(id="photo_column"):
 			# yield Static("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯабвгдеёжзийклмнопрстуфхцчшщьыъэюя")
 			with Grid(id="photo_panel"):
@@ -153,15 +154,16 @@ class PhotoScreen(UnfocusedScreen):
 		super().__init__(name, id, classes)
 		self.photo = photo
 	def compose(self):
-		yield Header()
+		yield Header(classes="-tall", icon="•••")
 		with Vertical():
-			yield Label(f"«{self.photo.label.upper()}»")
+			# yield Label(f"«{self.photo.label.upper()}»")
 			yield Static(Content(self.photo.description), id="description")
 			if self.photo != photo10:
 				yield Center(Button("‹‹"))
 			else:
 				yield Center(Button("››"))
 	def on_mount(self):
+		self.title = self.photo.label
 		if not self.photo.seen:
 			self.photo.first_seen()
 		self.query_one("#description").update(Content.from_markup(self.photo.description))
@@ -199,7 +201,7 @@ class NoteScreen(ModalScreen):
 class LastPhotoScreen(UnfocusedScreen):
 
 	def compose(self) -> ComposeResult:
-		yield Header()
+		yield Header(classes="-tall", icon="•••")
 		with Vertical(id="photo_column"):
 			with Grid(id="photo_panel"):
 				yield Placeholder(classes="noopacity")
