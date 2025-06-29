@@ -1,13 +1,13 @@
 import random
 
-from textual import events, on
+from textual import on
 from textual.app import App, ComposeResult
-from textual.containers import Horizontal, Vertical, Grid, Container, Center
+from textual.containers import Vertical, Grid, Container, Center
 from textual.content import Content
 from textual.message import Message
 from textual.screen import Screen, ModalScreen
 from textual.theme import Theme
-from textual.widgets import Button, Header, Footer, Placeholder, Markdown, Link, Static, Label
+from textual.widgets import Button, Header, Placeholder, Static, Label
 
 from texts import Cut, Photos, Photo, Notes, Note, photo10
 
@@ -243,7 +243,7 @@ class TheEndScreen(Screen):
 
 class TestApp(App):
 
-	CSS_PATH = "test.tcss"
+	CSS_PATH = "styles.tcss"
 	TITLE = TITLE
 	# LABELS = ["Рынок", "Ме́ха", "Не более 67%", "Розовые пантеры Джайпура", "Красные платки", "三足狗", "Café hidropônico", "Один-пятьдесят восемь", "Фарм-принтер"]
 	PHOTOS = Photos.photos
