@@ -301,57 +301,6 @@ class TestApp(App):
 	def on_photos_screen_continue_pressed(self):
 		self.push_screen("interlude_screen")
 
-
-EXAMPLE_MARKDOWN = """\
-# Markdown Document
-
-[wtf!!!](jjj)
-
-This is an example of Textual's `Markdown` widget.
-
-## Features
-
-Markdown syntax and extensions are supported.
-
-- Typography *emphasis*, **strong**, `inline code` etc.
-- Headers
-- Lists (bullet and ordered)
-- Syntax highlighted code blocks
-- Tables!
-- [Links](#Features)?
-"""
-
-TEXT1 = """\
-Hello, [bold $text on $primary]World[/]!
-
-[@click=app.notify('Hello, World!')]Click me[/]
-"""
-
-
-class MarkdownExampleApp(App):
-	CSS = """
-		Content Link {
-			color: red;
-			text-style: none;
-			&:hover { color: $accent-lighten-1; }
-		}
-		Static {
-			link-color: pink;
-			link-style: bold;
-			&:hover { color: $accent-lighten-1; }
-		}
-	"""
-
-	def compose(self) -> ComposeResult:
-		yield Link("ЖОПА!!!")
-		yield Static(TEXT1)
-		yield Markdown(EXAMPLE_MARKDOWN, id="md")
-
-
 if __name__ == "__main__":
 	app = TestApp()
 	app.run()
-
-# if __name__ == "__main__":
-# 	app = MarkdownExampleApp()
-# 	app.run()
