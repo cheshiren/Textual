@@ -72,10 +72,16 @@ PhotoScreen {
 	Vertical {
 		align: center middle;
 		max-width: $text-width;
+		Label {
+			width: 100%;
+			text-align: center;
+		}
 		Static {
 			margin: 1 2;
 			link-color: $text-primary;
-			link-style: bold;
+			link-style: bold underline;
+			link-color-hover: $background;
+			link-background-hover: $text-primary;
 		}
 		Button {
 			margin: 1 1;

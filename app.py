@@ -155,7 +155,8 @@ class PhotoScreen(UnfocusedScreen):
 	def compose(self):
 		yield Header()
 		with Vertical():
-			yield Static(Content(self.photo.description))
+			yield Label(f"«{self.photo.label.upper()}»")
+			yield Static(Content(self.photo.description), id="description")
 			if self.photo != photo10:
 				yield Center(Button("‹‹"))
 			else:
@@ -163,7 +164,7 @@ class PhotoScreen(UnfocusedScreen):
 	def on_mount(self):
 		if not self.photo.seen:
 			self.photo.first_seen()
-		self.query_one("Static").update(Content.from_markup(self.photo.description))
+		self.query_one("#description").update(Content.from_markup(self.photo.description))
 	class ReturnPressed(Message):
 		pass
 	class ContinuePressed(Message):
@@ -234,7 +235,7 @@ class LastPhotoScreen(UnfocusedScreen):
 class TheEndScreen(Screen):
 	def compose(self):
 		yield Center(Label("КОНЕЦ"))
-		yield Center(Label(f"{AUTHOR}. 2025"), id="end")
+		yield Center(Label(f"{AUTHOR}, 2025"), id="end")
 	def on_mount(self):
 		self.query_one("#end").styles.dock = "bottom"
 		self.query_one("#end").styles.margin = [3, 0]
