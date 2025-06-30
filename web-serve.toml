@@ -1,0 +1,2 @@
+[app.Reckless-Borough]
+command = "python app.py"
